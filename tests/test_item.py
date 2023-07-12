@@ -64,3 +64,8 @@ def test_instantiate_from_csv(tmp_path):
     assert Item.all[1].name == "Item2"
     assert Item.all[1].price == "300"
     assert Item.all[1].quantity == "10"
+
+
+def test_repr_str(item):
+    assert repr(item) == "Item('Test Item', 100.0, 5)"
+    assert str(item) == 'Test Item'

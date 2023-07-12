@@ -25,6 +25,12 @@ class Item:
         self.quantity = quantity
         Item.all.append(self)
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}(\'{self.__name}\', {self.price}, {self.quantity})'
+
+    def __str__(self):
+        return f'{self.__name}'
+
     @property
     def name(self):
         return self.__name
@@ -71,9 +77,3 @@ class Item:
             return int(float(string_numb))
 
         return int(string_numb)
-
-    def __del__(self):
-        """
-        Деструктор класса Item. Вызывается перед уничтожением объекта.
-        """
-        Item.all.remove(self)
