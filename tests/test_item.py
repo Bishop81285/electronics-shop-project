@@ -69,3 +69,13 @@ def test_instantiate_from_csv(tmp_path):
 def test_repr_str(item):
     assert repr(item) == "Item('Test Item', 100.0, 5)"
     assert str(item) == 'Test Item'
+
+
+def test_add_correct(item, phone):
+    assert item + phone == 15
+    assert phone + phone == 20
+
+
+def test_add_incorrect(phone):
+    with pytest.raises(TypeError):
+        tmp = phone + 123
