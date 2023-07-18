@@ -31,6 +31,12 @@ class Item:
     def __str__(self):
         return f'{self.__name}'
 
+    def __add__(self, other):
+        if issubclass(other.__class__, self.__class__):
+            return other.quantity + self.quantity
+        else:
+            raise TypeError('Неподдерживаемый тип операнда. Можно объединять только объекты классов (Item, Phone).')
+
     @property
     def name(self):
         return self.__name
