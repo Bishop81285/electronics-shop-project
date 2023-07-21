@@ -2,8 +2,7 @@ from src.item import Item
 
 
 class MixinChLang:
-    def __init__(self, name: str, price: float, quantity: int):
-        super().__init__(name, price, quantity)
+    def __init__(self):
         self.__lang = 'EN'
 
     @property
@@ -15,6 +14,7 @@ class MixinChLang:
         return self
 
 
-class Keyboard(MixinChLang, Item):
+class Keyboard(Item, MixinChLang):
     def __init__(self, name: str, price: float, quantity: int):
         super().__init__(name, price, quantity)
+        MixinChLang.__init__(self)
