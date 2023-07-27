@@ -2,6 +2,7 @@ import csv
 import json
 
 from settings import CSV_FILE_PATH
+from src.my_except import InstantiateCSVError
 
 
 class Item:
@@ -67,12 +68,18 @@ class Item:
         """
         Класс-метод, инициализирующий экземпляры класса Item данными из файла src/items.csv
         """
-        with open(cls.__csv_path) as csvfile:
-            reader = csv.DictReader(csvfile)
+        try:
+            with open(cls.__csv_path) as csvfile:
+                reader = csv.DictReader(csvfile)
 
-            row: dict
-            for row in reader:
-                cls(**row)
+                row: dict
+                for row in reader:
+                    if not all(key in row for key in ('name', 'price', 'quantity')):
+                        raise InstantiateCSVError()
+
+                    cls(**row)
+        except FileNotFoundError:
+            raise FileNotFoundError("Отсутствует файл item.csv")
 
     @staticmethod
     def string_to_number(string_numb):
