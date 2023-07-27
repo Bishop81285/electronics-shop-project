@@ -4,6 +4,7 @@ import csv
 import pytest
 
 from src.item import Item
+from src.my_except import InstantiateCSVError
 
 
 def test_item_init():
@@ -79,3 +80,22 @@ def test_add_correct(item, phone):
 def test_add_incorrect(phone):
     with pytest.raises(TypeError):
         tmp = phone + 123
+
+
+def test_instantiate_from_csv_file_not_found():
+    with pytest.raises(FileNotFoundError, match='Отсутствует файл item.csv'):
+        Item.instantiate_from_csv()
+
+
+def test_instantiate_from_csv_file_corrupted(tmp_path):
+    csv_path = tmp_path / "test.csv"
+    with open(csv_path, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["name", "price"])
+        writer.writerow(["Item1", "250"])
+        writer.writerow(["Item2", "300"])
+
+    Item._Item__csv_path = str(csv_path)
+
+    with pytest.raises(InstantiateCSVError, match='Файл item.csv поврежден'):
+        Item.instantiate_from_csv()
